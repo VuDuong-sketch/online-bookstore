@@ -55,9 +55,7 @@ The project is developed using a **Frontend – Backend – Database** architect
 ### Frontend
 
 * React
-* React Router
-* HTML
-* CSS
+* Redux
 * Tailwind CSS
 
 ### Backend
@@ -95,8 +93,8 @@ online-bookstore/
 │   └── ...
 │
 ├── database/
-│   ├── ...
-│   └── ...
+│   ├── table.sql
+│   └── data.sql
 │
 └── README.md
 ```
@@ -117,7 +115,6 @@ Contains the React application, including:
 
 * User interface
 * Page components
-* Routing
 * API integration
 * Client-side state management
 
@@ -126,7 +123,6 @@ Contains the React application, including:
 Contains database-related files such as:
 
 * Database schema
-* SQL scripts
 * Sample data
 
 ## 🗄️ Database
@@ -159,18 +155,18 @@ cd online-bookstore
 
 ### 2. Set up the database
 
-Create a MySQL database and execute the SQL scripts located in the `database/` directory.
+Execute the SQL scripts located in the `database/` directory.
 
 For example:
 
 ```sql
-CREATE DATABASE online_bookstore;
+CREATE DATABASE bookstore;
 ```
 
 Then configure the database connection in the backend configuration file.
 
 ```properties
-spring.datasource.url=jdbc:mysql://localhost:3306/online_bookstore
+spring.datasource.url=jdbc:mysql://localhost:3306/bookstore
 spring.datasource.username=root
 spring.datasource.password=your_password
 ```
@@ -283,7 +279,7 @@ Example API structure:
 | ------ | -------------- | ----------------- |
 | GET    | `/orders`      | Get orders        |
 | GET    | `/orders/{id}` | Get order details |
-| POST   | `/orders`      | Create an order   |
+| POST   | `/order`       | Create an order   |
 
 > Update the endpoints above to match the actual APIs implemented in the project.
 
@@ -301,7 +297,8 @@ Content-Type: application/json
 ```json
 {
   "username": "user",
-  "password": "password"
+  "password": "password",
+  "role": "role"
 }
 ```
 
@@ -310,20 +307,6 @@ Protected APIs require a valid JWT token:
 ```http
 Authorization: Bearer <JWT_TOKEN>
 ```
-
-## 📸 Screenshots
-
-Screenshots of the application can be added here.
-
-### Home Page
-
-### Book Details
-
-### Shopping Cart
-
-### Login
-
-> Create a `screenshots/` directory in the project root and place the corresponding images inside it.
 
 ## 🚧 Future Improvements
 

@@ -142,10 +142,21 @@ VALUES
   270000, 32
 );
 
-INSERT INTO users (username, password, role)
-VALUE
+INSERT INTO users
+(username, password, role)
+VALUES
 (
   'admin',
   'admin',
   'ADMIN'
+),
+(
+  'alice',
+  '12345678',
+  'USER'
+),
+(
+  'bob',
+  '11112222',
+  'USER'
 );

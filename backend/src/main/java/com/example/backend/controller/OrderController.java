@@ -1,8 +1,7 @@
 package com.example.backend.controller;
 
-import com.example.backend.dto.auth.ItemRequest;
-import com.example.backend.dto.auth.MessageResponse;
-import com.example.backend.dto.auth.OrderRequest;
+import com.example.backend.dto.order.ItemRequest;
+import com.example.backend.dto.order.OrderRequest;
 import com.example.backend.service.OrderService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;

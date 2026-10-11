@@ -1,6 +1,6 @@
 package com.example.backend.service;
 
-import com.example.backend.dto.auth.ItemRequest;
+import com.example.backend.dto.order.ItemRequest;
 import com.example.backend.entity.Book;
 import com.example.backend.entity.Order;
 import com.example.backend.entity.OrderItem;
@@ -11,7 +11,6 @@ import com.example.backend.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
