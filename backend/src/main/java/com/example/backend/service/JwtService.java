@@ -1,5 +1,6 @@
 package com.example.backend.service;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Service;
@@ -24,5 +25,13 @@ public class JwtService {
                 )
                 .signWith(secretKey)
                 .compact();
+    }
+
+    public Claims validateToken(String token) {
+        return Jwts.parser()
+                .verifyWith(secretKey)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
     }
 }

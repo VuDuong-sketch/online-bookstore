@@ -1,7 +1,6 @@
 package com.example.backend.repository;
 
 import com.example.backend.entity.User;
-import com.example.backend.enums.RegisterResult;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -26,7 +25,7 @@ public class UserRepository {
         return jdbcTemplate.query(
                 sql,
                 (rs, rowNum) -> new User(
-                        rs.getLong("id"),
+                        rs.getInt("id"),
                         rs.getString("username"),
                         rs.getString("password"),
                         rs.getString("role")
@@ -42,40 +41,37 @@ public class UserRepository {
                 WHERE username = ?
                 """;
 
-        try {
-            return jdbcTemplate.queryForObject(
-                    sql,
-                    (rs, rowNum) -> new User(
-                            rs.getLong("id"),
-                            rs.getString("username"),
-                            rs.getString("password"),
-                            rs.getString("role")
-                    ),
-                    username
-            );
-        } catch (Exception e) {
-            return null;
-        }
+        return jdbcTemplate.queryForObject(
+                sql,
+                (rs, rowNum) -> new User(
+                        rs.getInt("id"),
+                        rs.getString("username"),
+                        rs.getString("password"),
+                        rs.getString("role")
+                ),
+                username
+        );
     }
 
-    public RegisterResult saveUser(User user) {
+    public void createUser(User user) {
 
         String sql = """
                 INSERT INTO users(username, password, role)
-                VALUES (?, ?, ?)
+                VALUE (?, ?, ?)
                 """;
 
-        try {
-            final int rows = jdbcTemplate.update(
-                    sql,
-                    user.getUsername(),
-                    user.getPassword(),
-                    user.getRole()
-            );
-        } catch (Exception e) {
-            return RegisterResult.USERNAME_EXISTS;
-        }
+        jdbcTemplate.update(
+                sql,
+                user.getUsername(),
+                user.getPassword(),
+                user.getRole()
+        );
 
-        return RegisterResult.SUCCESS;
+        final int userId  = jdbcTemplate.queryForObject(
+                "SELECT LAST_INSERT_ID()",
+                (rs, rowNum) -> rs.getInt("LAST_INSERT_ID()")
+        );
+
+        user.setId(userId);
     }
 }

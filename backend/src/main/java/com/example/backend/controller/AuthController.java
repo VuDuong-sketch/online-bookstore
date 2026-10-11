@@ -1,7 +1,6 @@
 package com.example.backend.controller;
 
 import com.example.backend.dto.auth.*;
-import com.example.backend.enums.RegisterResult;
 import com.example.backend.service.AuthService;
 import com.example.backend.service.JwtService;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +34,13 @@ public class AuthController {
             return ResponseEntity.status(400).build();
         }
 
-        if (authService.login(username, password, role)) {
+        if (username.isBlank() || password.isBlank()) { // username hoac password = ""
+            return ResponseEntity.status(400).build();
+        }
+
+        final boolean success = authService.login(username, password, role);
+
+        if (success) {
             return ResponseEntity.status(200).body(
                     new LoginResponse(jwtService.generateToken( // Đăng nhập thành công trả về token
                             username,
@@ -43,9 +48,7 @@ public class AuthController {
                     ))
             );
         } else {
-            return ResponseEntity.status(401).body(new MessageResponse(
-                    "Sai tên đâng nhập hoặc mật khẩu"
-            ));
+            return ResponseEntity.status(401).build();
         }
     }
 
@@ -61,18 +64,14 @@ public class AuthController {
             return ResponseEntity.status(400).build();
         }
 
-        final RegisterResult registerResult = authService.register(username, password);
-
-        if (registerResult == RegisterResult.INVALID_USERNAME) {
-            return ResponseEntity.status(400).body(new MessageResponse("Username không hợp lệ"));
+        if (username.isBlank() || password.isBlank()) { // username hoac password = ""
+            return ResponseEntity.status(400).build();
         }
 
-        if (registerResult == RegisterResult.INVALID_PASSWORD) {
-            return ResponseEntity.status(400).body(new MessageResponse("Password không hợp lệ"));
-        }
-
-        if (registerResult == RegisterResult.USERNAME_EXISTS) {
-            return ResponseEntity.status(409).body(new MessageResponse("Tên người dùng đã tồn tại"));
+        try {
+            authService.register(username, password);
+        } catch (Exception e) {
+            return ResponseEntity.status(409).build();
         }
 
         return ResponseEntity.status(201).build();

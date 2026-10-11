@@ -1,7 +1,6 @@
 package com.example.backend.service;
 
 import com.example.backend.entity.User;
-import com.example.backend.enums.RegisterResult;
 import com.example.backend.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -20,23 +19,18 @@ public class AuthService {
             return false;
         }
 
-        final User user = userRepository.findByUsername(username);
+        try {
+            final User user = userRepository.findByUsername(username);
 
-        return user != null &&
-                password.equals(user.getPassword()) &&
-                role.equals(user.getRole());
+            return password.equals(user.getPassword()) && role.equals(user.getRole());
+
+        } catch (Exception e) {
+            return false;
+        }
     }
 
-    public RegisterResult register(String username, String password) {
+    public void register(String username, String password) {
 
-        if (username.isBlank()) {
-            return RegisterResult.INVALID_USERNAME;
-        }
-
-        if (password.isBlank()) {
-            return RegisterResult.INVALID_PASSWORD;
-        }
-
-        return userRepository.saveUser(new User(null, username, password, "USER"));
+        userRepository.createUser(new User(0, username, password, "USER"));
     }
 }

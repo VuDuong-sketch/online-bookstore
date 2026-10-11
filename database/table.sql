@@ -1,4 +1,3 @@
-drop database bookstore;
 create database bookstore;
 
 use bookstore;

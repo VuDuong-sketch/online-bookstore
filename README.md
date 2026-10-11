@@ -251,7 +251,7 @@ Frontend stores token
 Token included in API requests
   │
   ▼
-Token validated
+JwtFilter validates token
 ```
 
 ## 📡 REST API

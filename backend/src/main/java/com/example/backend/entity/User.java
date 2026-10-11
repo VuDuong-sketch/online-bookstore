@@ -2,25 +2,26 @@ package com.example.backend.entity;
 
 public class User {
 
-    private Long id;
+    private int id;
     private String username;
     private String password;
     private String role;
 
-    public User() {}
+    public User() {
+    }
 
-    public User(Long id, String username, String password, String role) {
+    public User(int id, String username, String password, String role) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.role = role;
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
